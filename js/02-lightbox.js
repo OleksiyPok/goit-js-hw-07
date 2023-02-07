@@ -1,7 +1,9 @@
 import { galleryItems } from './gallery-items.js';
 
 changeGalleryConteiner();
-createGallery();
+
+const galleryContainer = document.querySelector('.gallery');
+createGallery(galleryItems);
 
 function changeGalleryConteiner() {
   const divEl = document.createElement('div');
@@ -10,14 +12,8 @@ function changeGalleryConteiner() {
   document.querySelector('ul.gallery').remove();
 }
 
-function createGallery() {
-  const galleryContainer = document.querySelector('.gallery');
-  const previewGallery = createPreviewGallery(galleryItems);
-  galleryContainer.insertAdjacentHTML('beforeend', previewGallery);
-}
-
-function createPreviewGallery(items) {
-  return items
+function createGallery(items) {
+  const previewGallery = items
     .map(({ preview, original, description }) => {
       return `
         <a class="gallery__item" href="${original}">
@@ -30,6 +26,7 @@ function createPreviewGallery(items) {
         `;
     })
     .join('');
+  galleryContainer.insertAdjacentHTML('beforeend', previewGallery);
 }
 
 const lightbox = new SimpleLightbox('.gallery a', {
