@@ -1,22 +1,12 @@
 import { galleryItems } from './gallery-items.js';
-// Change code below this line
-
-const cssIncludePlace = document.querySelector('head');
-const cssIncludeLink = `<link href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css" rel="stylesheet">`;
-cssIncludePlace.insertAdjacentHTML('beforeend', cssIncludeLink);
-
-// const jsIncludePlace = document.querySelector('body script');
-// const jsIncludeLink = `<script defer src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>`;
-// jsIncludePlace.insertAdjacentHTML('afterend', jsIncludeLink);
 
 const galleryContainer = document.querySelector('.gallery');
-const previewGallery = createPreviewGallery(galleryItems);
-galleryContainer.insertAdjacentHTML('beforeend', previewGallery);
-
 galleryContainer.addEventListener('click', onPreviewPhotoClick);
 
-function createPreviewGallery(galleryItems) {
-  return galleryItems
+createPreviewGallery(galleryItems);
+
+function createPreviewGallery(items) {
+  const previewGallery = items
     .map(({ preview, original, description }) => {
       return `
         <div class="gallery__item">
@@ -32,17 +22,14 @@ function createPreviewGallery(galleryItems) {
         `;
     })
     .join('');
+
+  galleryContainer.insertAdjacentHTML('beforeend', previewGallery);
 }
 
 function onPreviewPhotoClick(e) {
   e.preventDefault();
   if (e.target.nodeName !== 'IMG') return;
-  const originalPhotoLink = getOriginalPhotoLink(e);
-  showOriginalPhoto(originalPhotoLink);
-}
-
-function getOriginalPhotoLink(e) {
-  return e.target.dataset.source;
+  showOriginalPhoto(e.target.dataset.source);
 }
 
 function showOriginalPhoto(link) {
